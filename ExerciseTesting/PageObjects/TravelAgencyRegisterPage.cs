@@ -28,74 +28,87 @@ namespace ExerciseTesting.PageObjects
         [FindsBy(How = How.CssSelector, Using = "#headersignupform > div:nth-child(9) > button")]
         IWebElement signUp;
 
-        /*
-         *  Constructor - initialize driver and elements (firstName, lastName, phone, email, password, confirmPassword, signUp)
-         */
+        /// <summary>
+        /// Constructor - initialize driver and elements (firstName, lastName, phone, email, password, confirmPassword, signUp)
+        /// </summary>
+        /// <param name="driver">Chrome Driver</param>
         public TravelAgencyRegisterPage(IWebDriver driver)
         {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 
-        /*
-         *  Enter first name to firstName element
-         */
+        /// <summary>
+        /// Enter first name to firstName element
+        /// </summary>
+        /// <param name="firstNameInput">first name</param>
         public void SetFirstName(string firstNameInput)
         {
             firstName.SendKeys(firstNameInput);
         }
 
-        /*
-         *  Enter last name to lastName element
-         */
+        /// <summary>
+        /// Enter last name to lastName element
+        /// </summary>
+        /// <param name="lastNameInput">last name</param>
         public void SetLastName(string lastNameInput)
         {
             lastName.SendKeys(lastNameInput);
         }
 
-        /*
-         *  Enter phone number to phone element
-         */
+        /// <summary>
+        /// Enter phone number to phone element
+        /// </summary>
+        /// <param name="phoneNumberInput">phone number</param>
         public void SetPhone(string phoneNumberInput)
         {
             phone.SendKeys(phoneNumberInput);
         }
 
-        /*
-         *  Enter email address to email element
-         */
+        /// <summary>
+        /// Enter email address to email element
+        /// </summary>
+        /// <param name="emailAddressInput">email address</param>
         public void SetEmail(string emailAddressInput)
         {
             email.SendKeys(emailAddressInput);
         }
 
-        /*
-         *  Enter password to password element
-         */
+        /// <summary>
+        /// Enter password to password element
+        /// </summary>
+        /// <param name="passwordInput">password</param>
         public void SetPassword(string passwordInput)
         {
-            this.password.SendKeys(passwordInput);
+            password.SendKeys(passwordInput);
         }
 
-        /*
-         *  Enter confirm password to confirmPassword element
-         */
+        /// <summary>
+        /// Enter confirm password to confirmPassword element
+        /// </summary>
+        /// <param name="confirmPasswordInput">confirm password</param>
         public void SetConfirmPassword(string confirmPasswordInput)
         {
             confirmPassword.SendKeys(confirmPasswordInput);
         }
 
-        /*
-         *  Click on signUp element
-         */
+        /// <summary>
+        /// Click on signUp element
+        /// </summary>
         public void ClickOnSignUp()
         {
             signUp.Click();
         }
 
-        /*
-         *  Complete sign up process by entering all required information
-         */
+        /// <summary>
+        /// Complete sign up process by entering all required information
+        /// </summary>
+        /// <param name="firstNameInput">first name</param>
+        /// <param name="lastNameInput">last name</param>
+        /// <param name="phoneNumberInput">phone number</param>
+        /// <param name="emailAddressInput">email address</param>
+        /// <param name="passwordInput">password</param>
+        /// <param name="confirmPasswordInput">confirm password</param>
         public void SignUp(string firstNameInput, string lastNameInput, string phoneNumberInput, string emailAddressInput, string passwordInput, string confirmPasswordInput)
         {
             SetFirstName(firstNameInput);
