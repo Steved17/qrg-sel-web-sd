@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace ExerciseTesting.PageObjects
 {
@@ -111,6 +113,10 @@ namespace ExerciseTesting.PageObjects
         /// <param name="confirmPasswordInput">confirm password</param>
         public void SignUp(string firstNameInput, string lastNameInput, string phoneNumberInput, string emailAddressInput, string passwordInput, string confirmPasswordInput)
         {
+            // Wait until input fields are ready
+            WebDriverWait waitUntilFieldsReady = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            waitUntilFieldsReady.Until(ExpectedConditions.ElementToBeClickable(By.Name("firstname")));
+
             SetFirstName(firstNameInput);
 
             SetLastName(lastNameInput);
@@ -122,6 +128,10 @@ namespace ExerciseTesting.PageObjects
             SetPassword(passwordInput);
 
             SetConfirmPassword(confirmPasswordInput);
+
+            // Wait until input fields are ready
+            WebDriverWait waitUntilSubmitIsReady = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            waitUntilSubmitIsReady.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#headersignupform > div:nth-child(9) > button")));
 
             ClickOnSignUp();
         }

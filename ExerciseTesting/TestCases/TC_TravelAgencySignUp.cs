@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ExerciseTesting.PageObjects;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System.Threading;
 using OpenQA.Selenium.Support.UI;
 using CsvHelper;
 using System.Collections.Generic;
@@ -92,11 +91,11 @@ namespace ExerciseTesting.TestCases
             objRegisterPage = new TravelAgencyRegisterPage(driver);
 
             // 6 - 12 Sign up
-            objRegisterPage.SignUp("Steve", "Dai", "1999999999", "steve2072@mailinator.com", "1234-Abcd", "1234-Abcd");
+            objRegisterPage.SignUp("Steve", "Dai", "1999999999", "steve2092@mailinator.com", "1234-Abcd", "1234-Abcd");
 
             // Wait until user is logged in
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(4));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("STEVE")));
+            WebDriverWait waitUntilUserIsLoggedIn = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            waitUntilUserIsLoggedIn.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("STEVE")));
 
             // Assign a new account page object
             objAccountPage = new TravelAgencyAcountPage(driver, "STEVE");
@@ -110,6 +109,10 @@ namespace ExerciseTesting.TestCases
 
             // Assign a new home page object
             objHomePage = new TravelAgencyHomePage(driver);
+
+            // Wait until user is logged out
+            WebDriverWait waitUntilUserIsLoggedOut = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            waitUntilUserIsLoggedOut.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
 
             //Assert that the user has been logged out
             Assert.IsTrue(objHomePage.UserIsLoggedOut(), "FAILED: User has not been logged out.");
@@ -140,7 +143,7 @@ namespace ExerciseTesting.TestCases
             Random rand = new Random();
 
             //i < 10 because we want 10 random entries from the csv sheet
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 int index;
                 index = rand.Next(1000);    //1000 because there are 1000 entries in the csv sheet
@@ -148,8 +151,17 @@ namespace ExerciseTesting.TestCases
                 // Assign a new home page object
                 objHomePage = new TravelAgencyHomePage(driver);
 
+                // Wait until user is logged out
+                WebDriverWait waitUntilUserIsLoggedOut = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                waitUntilUserIsLoggedOut.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
+ 
                 // 4
                 objHomePage.ClickOnMyAccount();
+
+                // Wait until sign up appears
+                WebDriverWait waitUntilSignUpAppears = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                waitUntilSignUpAppears.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Sign Up")));
+
                 // 5
                 objHomePage.ClickOnSignUp();
 
@@ -159,11 +171,12 @@ namespace ExerciseTesting.TestCases
                 // 6 - 12 Sign up
                 objRegisterPage.SignUp(dataArray[index].first_name, dataArray[index].last_name, dataArray[index].mobile, dataArray[index].email, dataArray[index].password, dataArray[index].password);
 
+                // check if the email has been registed already
                 try
                 {
                     // Wait until user is logged in
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
-                    wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText(dataArray[index].first_name.ToUpper())));
+                    WebDriverWait waitUntilUserIsLoggedIn = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                    waitUntilUserIsLoggedIn.Until(ExpectedConditions.ElementToBeClickable(By.LinkText(dataArray[index].first_name.ToUpper())));
                 }
                 catch
                 {
