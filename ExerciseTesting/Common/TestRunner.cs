@@ -1,4 +1,4 @@
-﻿namespace ExerciseTesting
+﻿namespace ExerciseTesting.Common
 {
     class TestRunner
     {

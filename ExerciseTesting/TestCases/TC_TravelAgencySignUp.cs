@@ -9,18 +9,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+
+// Using linkedtext causes annoying problems
 
 namespace ExerciseTesting.TestCases
 {
     [TestClass]
     public class TC_TravelAgencySignUp
     {
-        IWebDriver driver;
-        string websiteUrl = "http://www.phptravels.net/";                   //Address of website that user is supposed to go to 
-        string alreadyRegistered = " has already been registered.\n";       //Error message saying that the email has already been registered on the site
-        TravelAgencyHomePage objHomePage;
-        TravelAgencyRegisterPage objRegisterPage;
-        TravelAgencyAcountPage objAccountPage;
+        private IWebDriver driver;
+        private string websiteUrl = "http://www.phptravels.net/";                   //Address of website that user is supposed to go to 
+        private string alreadyRegistered = " has already been registered.";         //Error message saying that the email has already been registered on the site
+        private TravelAgencyHomePage objHomePage;
+        private TravelAgencyRegisterPage objRegisterPage;
+        private TravelAgencyAcountPage objAccountPage;
 
         //Read the csv data into an IEnumerable object
         IEnumerable<CSVDate.SignUpMockDate> GetCSVDate()
@@ -35,29 +38,23 @@ namespace ExerciseTesting.TestCases
             return records;
         }
 
-        /*
-         * Initilize a chrome driver and its settings 
-         */
+        /// <summary>
+        /// Initilize a chrome driver and its settings, maximize window, go to desired url
+        /// </summary>
         [TestInitialize]
         public void Initialize()
         {
-            // 1
             driver = new ChromeDriver();
-
-            // 2 Maximize browser window
             driver.Manage().Window.Maximize();
-
-            // 3 Go to a specific webpage 
             driver.Navigate().GoToUrl(websiteUrl);
         }
 
-        /*
-         * Terminate chrome driver
-         */
+        /// <summary>
+        /// Terminate chrome driver
+        /// </summary>
         [TestCleanup]
         public void CleanUp()
         {
-            // 14 kill the driver
             driver.Quit();
         }
 
@@ -74,24 +71,26 @@ namespace ExerciseTesting.TestCases
         /// 
         /// </summary>
         [TestMethod]
+        [TestCategory("Exercise")]
         public void VerifySignUpLogOut()
         {
             // Assign a new home page object
             objHomePage = new TravelAgencyHomePage(driver);
 
             //Assert that the page navigated to is in fact the page desired
-            Assert.AreEqual(websiteUrl, objHomePage.GetUrl(), "FAILED: User is not taken to the correct site.\n" + "Current Site: " + objHomePage.GetUrl() + "\n" + "Correct Site: " + websiteUrl);
+            Assert.AreEqual(websiteUrl, objHomePage.GetUrl(), "FAILED: User is not taken to the correct site.\n" 
+                + "Current Site: " + objHomePage.GetUrl() + "\n" + "Correct Site: " + websiteUrl);
 
-            // 4
             objHomePage.ClickOnMyAccount();
-            // 5
             objHomePage.ClickOnSignUp();
 
             // Assign a new register page object
             objRegisterPage = new TravelAgencyRegisterPage(driver);
 
             // 6 - 12 Sign up
-            objRegisterPage.SignUp("Steve", "Dai", "1999999999", "steve2092@mailinator.com", "1234-Abcd", "1234-Abcd");
+            objRegisterPage.SignUp("Steve", "Dai", "1999999999", "steve210@mailinator.com", "1234-Abcd", "1234-Abcd");
+
+            //make your own wait function somewhere else
 
             // Wait until user is logged in
             WebDriverWait waitUntilUserIsLoggedIn = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -116,6 +115,8 @@ namespace ExerciseTesting.TestCases
 
             //Assert that the user has been logged out
             Assert.IsTrue(objHomePage.UserIsLoggedOut(), "FAILED: User has not been logged out.");
+
+            //****************************** add success message/report ***********************************
         }
 
         /// <summary>
@@ -131,6 +132,7 @@ namespace ExerciseTesting.TestCases
         /// 
         /// </summary>
         [TestMethod]
+        [TestCategory("Exercise")]
         public void VerifyMultipleSignUps()
         {
             //Read the csv data into an IEnumerable object
@@ -142,11 +144,10 @@ namespace ExerciseTesting.TestCases
 
             Random rand = new Random();
 
-            //i < 10 because we want 10 random entries from the csv sheet
-            for (int i = 0; i < 20; i++)
+            //i < 20 because we want 20 random entries from the csv sheet
+            for (int i = 0; i < 10; i++)
             {
-                int index;
-                index = rand.Next(1000);    //1000 because there are 1000 entries in the csv sheet
+                int index = rand.Next(1000);    //1000 because there are 1000 entries in the csv sheet
 
                 // Assign a new home page object
                 objHomePage = new TravelAgencyHomePage(driver);
@@ -157,6 +158,9 @@ namespace ExerciseTesting.TestCases
  
                 // 4
                 objHomePage.ClickOnMyAccount();
+
+                // This solves things happening too fast problem - there is also button that has Sign Up as text
+                Thread.Sleep(1000);
 
                 // Wait until sign up appears
                 WebDriverWait waitUntilSignUpAppears = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -171,6 +175,8 @@ namespace ExerciseTesting.TestCases
                 // 6 - 12 Sign up
                 objRegisterPage.SignUp(dataArray[index].first_name, dataArray[index].last_name, dataArray[index].mobile, dataArray[index].email, dataArray[index].password, dataArray[index].password);
 
+                // Use if statement -> increase counter -> continue the for loop
+
                 // check if the email has been registed already
                 try
                 {
@@ -184,6 +190,7 @@ namespace ExerciseTesting.TestCases
                     continue;
                 }
 
+                Debug.WriteLine(dataArray[index].email + " is good.");
                 // Assign a new account page object
                 objAccountPage = new TravelAgencyAcountPage(driver, dataArray[index].first_name.ToUpper());
 
@@ -193,8 +200,6 @@ namespace ExerciseTesting.TestCases
                 // 13
                 objAccountPage.ClickOnUserName();
                 objAccountPage.ClickOnLogOut();
-
-
             }
 
         }

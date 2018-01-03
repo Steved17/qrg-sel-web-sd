@@ -5,8 +5,8 @@ namespace ExerciseTesting.PageObjects
 {
     class TravelAgencyAcountPage
     {
-        IWebDriver driver;
-        string user;            //Name of the user that is used to check whether user has been created and logged in successfully 
+        private IWebDriver driver;
+        private string user;            //Name of the user that is used to check whether user has been created and logged in successfully 
 
         [FindsBy(How = How.LinkText, Using = "Logout")]
         IWebElement logOut;

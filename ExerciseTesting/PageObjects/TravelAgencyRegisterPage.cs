@@ -7,7 +7,7 @@ namespace ExerciseTesting.PageObjects
 {
     class TravelAgencyRegisterPage
     {
-        IWebDriver driver;
+        private IWebDriver driver;
 
         [FindsBy(How = How.Name, Using = "firstname")]
         IWebElement firstName;
@@ -41,60 +41,6 @@ namespace ExerciseTesting.PageObjects
         }
 
         /// <summary>
-        /// Enter first name to firstName element
-        /// </summary>
-        /// <param name="firstNameInput">first name</param>
-        public void SetFirstName(string firstNameInput)
-        {
-            firstName.SendKeys(firstNameInput);
-        }
-
-        /// <summary>
-        /// Enter last name to lastName element
-        /// </summary>
-        /// <param name="lastNameInput">last name</param>
-        public void SetLastName(string lastNameInput)
-        {
-            lastName.SendKeys(lastNameInput);
-        }
-
-        /// <summary>
-        /// Enter phone number to phone element
-        /// </summary>
-        /// <param name="phoneNumberInput">phone number</param>
-        public void SetPhone(string phoneNumberInput)
-        {
-            phone.SendKeys(phoneNumberInput);
-        }
-
-        /// <summary>
-        /// Enter email address to email element
-        /// </summary>
-        /// <param name="emailAddressInput">email address</param>
-        public void SetEmail(string emailAddressInput)
-        {
-            email.SendKeys(emailAddressInput);
-        }
-
-        /// <summary>
-        /// Enter password to password element
-        /// </summary>
-        /// <param name="passwordInput">password</param>
-        public void SetPassword(string passwordInput)
-        {
-            password.SendKeys(passwordInput);
-        }
-
-        /// <summary>
-        /// Enter confirm password to confirmPassword element
-        /// </summary>
-        /// <param name="confirmPasswordInput">confirm password</param>
-        public void SetConfirmPassword(string confirmPasswordInput)
-        {
-            confirmPassword.SendKeys(confirmPasswordInput);
-        }
-
-        /// <summary>
         /// Click on signUp element
         /// </summary>
         public void ClickOnSignUp()
@@ -113,25 +59,27 @@ namespace ExerciseTesting.PageObjects
         /// <param name="confirmPasswordInput">confirm password</param>
         public void SignUp(string firstNameInput, string lastNameInput, string phoneNumberInput, string emailAddressInput, string passwordInput, string confirmPasswordInput)
         {
-            // Wait until input fields are ready
-            WebDriverWait waitUntilFieldsReady = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            waitUntilFieldsReady.Until(ExpectedConditions.ElementToBeClickable(By.Name("firstname")));
-
-            SetFirstName(firstNameInput);
-
-            SetLastName(lastNameInput);
-
-            SetPhone(phoneNumberInput);
-
-            SetEmail(emailAddressInput);
-
-            SetPassword(passwordInput);
-
-            SetConfirmPassword(confirmPasswordInput);
+            // put wait in driver init class
 
             // Wait until input fields are ready
-            WebDriverWait waitUntilSubmitIsReady = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            waitUntilSubmitIsReady.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#headersignupform > div:nth-child(9) > button")));
+            WebDriverWait waitZ = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            waitZ.Until(ExpectedConditions.ElementToBeClickable(By.Name("firstname")));
+
+            firstName.SendKeys(firstNameInput);
+
+            lastName.SendKeys(lastNameInput);
+
+            phone.SendKeys(phoneNumberInput);
+
+            email.SendKeys(emailAddressInput);
+
+            password.SendKeys(passwordInput);
+
+            confirmPassword.SendKeys(confirmPasswordInput);
+
+            // Wait until input fields are ready
+            WebDriverWait waitX = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            waitX.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#headersignupform > div:nth-child(9) > button")));
 
             ClickOnSignUp();
         }

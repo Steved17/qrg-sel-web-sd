@@ -5,9 +5,10 @@ namespace ExerciseTesting.PageObjects
 {
     class TravelAgencyHomePage
     {
-        IWebDriver driver;
+        private IWebDriver driver;
 
-        // Clicking on myAccount element gives options to log in and sign up
+        // Use struct to store parameter and pass struct to methods
+
         [FindsBy(How = How.LinkText, Using = "MY ACCOUNT")]
         IWebElement myAccount;
 
@@ -27,7 +28,7 @@ namespace ExerciseTesting.PageObjects
         /// <summary>
         /// Click on the myAccount element
         /// </summary>
-        public void ClickOnMyAccount()
+        public void ClickOnMyAccount()  //more specific naming - add button
         {
             myAccount.Click();
         }
@@ -35,7 +36,7 @@ namespace ExerciseTesting.PageObjects
         /// <summary>
         /// Click on the signUp element
         /// </summary>
-        public void ClickOnSignUp()
+        public void ClickOnSignUp()   //more specific naming - add button
         {
             signUp.Click();
         }
