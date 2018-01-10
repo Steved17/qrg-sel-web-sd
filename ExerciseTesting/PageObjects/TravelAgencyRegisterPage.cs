@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Threading;
 
 namespace ExerciseTesting.PageObjects
 {
@@ -62,8 +63,8 @@ namespace ExerciseTesting.PageObjects
             // put wait in driver init class
 
             // Wait until input fields are ready
-            WebDriverWait waitZ = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            waitZ.Until(ExpectedConditions.ElementToBeClickable(By.Name("firstname")));
+            //WebDriverWait waitZ = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitZ.Until(ExpectedConditions.ElementToBeClickable(By.Name("firstname")));
 
             firstName.SendKeys(firstNameInput);
 
@@ -77,9 +78,11 @@ namespace ExerciseTesting.PageObjects
 
             confirmPassword.SendKeys(confirmPasswordInput);
 
+            Thread.Sleep(3000);
+
             // Wait until input fields are ready
-            WebDriverWait waitX = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            waitX.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#headersignupform > div:nth-child(9) > button")));
+            //WebDriverWait waitX = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitX.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#headersignupform > div:nth-child(9) > button")));
 
             ClickOnSignUp();
         }

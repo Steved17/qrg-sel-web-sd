@@ -47,6 +47,8 @@ namespace ExerciseTesting.TestCases
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl(websiteUrl);
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
         /// <summary>
@@ -81,6 +83,16 @@ namespace ExerciseTesting.TestCases
             Assert.AreEqual(websiteUrl, objHomePage.GetUrl(), "FAILED: User is not taken to the correct site.\n" 
                 + "Current Site: " + objHomePage.GetUrl() + "\n" + "Correct Site: " + websiteUrl);
 
+
+            By preloader = By.Id("//[@id='preloader']");
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(preloader));
+
+            // Wait until user is logged out
+            //WebDriverWait waitGZ = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitGZ.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
+
+
             objHomePage.ClickOnMyAccount();
             objHomePage.ClickOnSignUp();
 
@@ -88,19 +100,23 @@ namespace ExerciseTesting.TestCases
             objRegisterPage = new TravelAgencyRegisterPage(driver);
 
             // 6 - 12 Sign up
-            objRegisterPage.SignUp("Steve", "Dai", "1999999999", "steve210@mailinator.com", "1234-Abcd", "1234-Abcd");
+            objRegisterPage.SignUp("Steve", "Dai", "1999999999", "stevenGGG@mailinator.com", "1234-Abcd", "1234-Abcd");
 
             //make your own wait function somewhere else
 
+
             // Wait until user is logged in
-            WebDriverWait waitUntilUserIsLoggedIn = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            waitUntilUserIsLoggedIn.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("STEVE")));
+            //WebDriverWait waitUntilUserIsLoggedIn = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitUntilUserIsLoggedIn.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("STEVE")));
 
             // Assign a new account page object
             objAccountPage = new TravelAgencyAcountPage(driver, "STEVE");
 
             //Assert that the desired account has actually been created and logged in
             Assert.IsTrue(objAccountPage.UserIsLoggedIn(), "FAILED: User has not been created and logged in.");
+
+
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(preloader));
 
             // 13
             objAccountPage.ClickOnUserName();
@@ -110,8 +126,8 @@ namespace ExerciseTesting.TestCases
             objHomePage = new TravelAgencyHomePage(driver);
 
             // Wait until user is logged out
-            WebDriverWait waitUntilUserIsLoggedOut = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            waitUntilUserIsLoggedOut.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
+            //WebDriverWait waitUntilUserIsLoggedOut = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitUntilUserIsLoggedOut.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
 
             //Assert that the user has been logged out
             Assert.IsTrue(objHomePage.UserIsLoggedOut(), "FAILED: User has not been logged out.");
@@ -145,26 +161,30 @@ namespace ExerciseTesting.TestCases
             Random rand = new Random();
 
             //i < 20 because we want 20 random entries from the csv sheet
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
                 int index = rand.Next(1000);    //1000 because there are 1000 entries in the csv sheet
 
                 // Assign a new home page object
                 objHomePage = new TravelAgencyHomePage(driver);
 
+                By preloader = By.Id("//[@id='preloader']");
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(preloader));
+
                 // Wait until user is logged out
-                WebDriverWait waitUntilUserIsLoggedOut = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-                waitUntilUserIsLoggedOut.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
- 
+                //WebDriverWait waitUntilUserIsLoggedOut = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                //waitUntilUserIsLoggedOut.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("MY ACCOUNT")));
+
                 // 4
                 objHomePage.ClickOnMyAccount();
 
                 // This solves things happening too fast problem - there is also button that has Sign Up as text
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
                 // Wait until sign up appears
-                WebDriverWait waitUntilSignUpAppears = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-                waitUntilSignUpAppears.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Sign Up")));
+                //WebDriverWait waitUntilSignUpAppears = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                //waitUntilSignUpAppears.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Sign Up")));
 
                 // 5
                 objHomePage.ClickOnSignUp();
@@ -172,12 +192,23 @@ namespace ExerciseTesting.TestCases
                 // Assign a new register page object
                 objRegisterPage = new TravelAgencyRegisterPage(driver);
 
-                // 6 - 12 Sign up
-                objRegisterPage.SignUp(dataArray[index].first_name, dataArray[index].last_name, dataArray[index].mobile, dataArray[index].email, dataArray[index].password, dataArray[index].password);
+                try
+                {
+                    // 6 - 12 Sign up
+                    objRegisterPage.SignUp(dataArray[index].first_name, dataArray[index].last_name, dataArray[index].mobile, dataArray[index].email, dataArray[index].password, dataArray[index].password);
+                }
+                catch
+                {
+                    Debug.WriteLine(dataArray[index].email + alreadyRegistered);
+                    continue;
+                }
+
 
                 // Use if statement -> increase counter -> continue the for loop
 
                 // check if the email has been registed already
+
+                /*
                 try
                 {
                     // Wait until user is logged in
@@ -189,6 +220,7 @@ namespace ExerciseTesting.TestCases
                     Debug.WriteLine(dataArray[index].email + alreadyRegistered);
                     continue;
                 }
+                */
 
                 Debug.WriteLine(dataArray[index].email + " is good.");
                 // Assign a new account page object
@@ -196,6 +228,8 @@ namespace ExerciseTesting.TestCases
 
                 //Assert that the desired account has actually been created and logged in
                 Assert.IsTrue(objAccountPage.UserIsLoggedIn(), "FAILED: User has not been created and logged in.");
+
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(preloader));
 
                 // 13
                 objAccountPage.ClickOnUserName();
