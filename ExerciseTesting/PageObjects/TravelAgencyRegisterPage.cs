@@ -1,11 +1,14 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
+using System;
+using System.Threading;
 
 namespace ExerciseTesting.PageObjects
 {
     class TravelAgencyRegisterPage
     {
-        IWebDriver driver;
+        private IWebDriver driver;
 
         [FindsBy(How = How.Name, Using = "firstname")]
         IWebElement firstName;
@@ -28,87 +31,58 @@ namespace ExerciseTesting.PageObjects
         [FindsBy(How = How.CssSelector, Using = "#headersignupform > div:nth-child(9) > button")]
         IWebElement signUp;
 
-        /*
-         *  Constructor - initialize driver and elements (firstName, lastName, phone, email, password, confirmPassword, signUp)
-         */
+        /// <summary>
+        /// Constructor - initialize driver and elements (firstName, lastName, phone, email, password, confirmPassword, signUp)
+        /// </summary>
+        /// <param name="driver">Chrome Driver</param>
         public TravelAgencyRegisterPage(IWebDriver driver)
         {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 
-        /*
-         *  Enter first name to firstName element
-         */
-        public void SetFirstName(string firstNameInput)
-        {
-            firstName.SendKeys(firstNameInput);
-        }
-
-        /*
-         *  Enter last name to lastName element
-         */
-        public void SetLastName(string lastNameInput)
-        {
-            lastName.SendKeys(lastNameInput);
-        }
-
-        /*
-         *  Enter phone number to phone element
-         */
-        public void SetPhone(string phoneNumberInput)
-        {
-            phone.SendKeys(phoneNumberInput);
-        }
-
-        /*
-         *  Enter email address to email element
-         */
-        public void SetEmail(string emailAddressInput)
-        {
-            email.SendKeys(emailAddressInput);
-        }
-
-        /*
-         *  Enter password to password element
-         */
-        public void SetPassword(string passwordInput)
-        {
-            this.password.SendKeys(passwordInput);
-        }
-
-        /*
-         *  Enter confirm password to confirmPassword element
-         */
-        public void SetConfirmPassword(string confirmPasswordInput)
-        {
-            confirmPassword.SendKeys(confirmPasswordInput);
-        }
-
-        /*
-         *  Click on signUp element
-         */
+        /// <summary>
+        /// Click on signUp element
+        /// </summary>
         public void ClickOnSignUp()
         {
             signUp.Click();
         }
 
-        /*
-         *  Complete sign up process by entering all required information
-         */
+        /// <summary>
+        /// Complete sign up process by entering all required information
+        /// </summary>
+        /// <param name="firstNameInput">first name</param>
+        /// <param name="lastNameInput">last name</param>
+        /// <param name="phoneNumberInput">phone number</param>
+        /// <param name="emailAddressInput">email address</param>
+        /// <param name="passwordInput">password</param>
+        /// <param name="confirmPasswordInput">confirm password</param>
         public void SignUp(string firstNameInput, string lastNameInput, string phoneNumberInput, string emailAddressInput, string passwordInput, string confirmPasswordInput)
         {
-            SetFirstName(firstNameInput);
+            // put wait in driver init class
 
-            SetLastName(lastNameInput);
+            // Wait until input fields are ready
+            //WebDriverWait waitZ = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitZ.Until(ExpectedConditions.ElementToBeClickable(By.Name("firstname")));
 
-            SetPhone(phoneNumberInput);
+            firstName.SendKeys(firstNameInput);
 
-            SetEmail(emailAddressInput);
+            lastName.SendKeys(lastNameInput);
 
-            SetPassword(passwordInput);
+            phone.SendKeys(phoneNumberInput);
 
-            SetConfirmPassword(confirmPasswordInput);
+            email.SendKeys(emailAddressInput);
+
+            password.SendKeys(passwordInput);
+
+            confirmPassword.SendKeys(confirmPasswordInput);
+
+            Thread.Sleep(3000);
+
+            // Wait until input fields are ready
+            //WebDriverWait waitX = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //waitX.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("#headersignupform > div:nth-child(9) > button")));
 
             ClickOnSignUp();
         }
