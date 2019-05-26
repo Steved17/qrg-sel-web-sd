@@ -3,10 +3,12 @@ C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\Microsoft.Vis
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\ExerciseTesting.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\ExerciseTesting.pdb
+C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\CsvHelper.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\WebDriver.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\WebDriver.Support.dll
+C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\CsvHelper.xml
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\WebDriver.xml
@@ -14,5 +16,3 @@ C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\WebDriver.Sup
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\obj\Debug\ExerciseTesting.csproj.CoreCompileInputs.cache
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\obj\Debug\ExerciseTesting.dll
 C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\obj\Debug\ExerciseTesting.pdb
-C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\CsvHelper.dll
-C:\Users\QT\source\repos\ExerciseTesting\ExerciseTesting\bin\Debug\CsvHelper.xml
